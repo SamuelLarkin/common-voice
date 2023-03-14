@@ -42,6 +42,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PAT }}
-          repository: nigeldecontie/Common-Voice.aws
+          repository: ${{ vars.AWS_REPO }}
           event-type: cv-deployment
           client-payload: '{"tag": "${{ steps.push-image.outputs.image_tag }}"}'
