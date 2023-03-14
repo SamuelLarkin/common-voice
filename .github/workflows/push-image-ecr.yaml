@@ -1,6 +1,9 @@
 name: Build and push docker container
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - dev/ilt
 
 jobs:
   # test-server: TODO?

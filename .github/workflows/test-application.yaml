@@ -1,9 +1,6 @@
 name: Test Application
 
-on:
-  push:
-    branches:
-      - dev/ilt
+on: ['pull_request']
 
 jobs:
   test-server:
