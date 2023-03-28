@@ -28,7 +28,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: common-voice
-          IMAGE_TAG: prod-${{ github.sha }}
+          IMAGE_TAG: stage-${{ github.sha }}
         run: |
           echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
           CURRENT_UID=$(id -u):$(id -g) docker-compose --project-name "common-voice" -f "docker-compose.yaml" build web
