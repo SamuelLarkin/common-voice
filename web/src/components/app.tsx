@@ -52,6 +52,13 @@ const ListenPage = React.lazy(
 );
 const SpeakPage = React.lazy(() => import('./pages/contribution/speak/speak'));
 
+const ReportClipsPage = React.lazy(() => import('./report/clips'));
+const ReportVotesPage = React.lazy(() => import('./report/votes'));
+const ReportReportedClipsPage = React.lazy(() => import('./report/reported_clips'));
+const ReportReportedSentencesPage = React.lazy(() => import('./report/reported_sentences'));
+const ReportSkippedClipsPage = React.lazy(() => import('./report/skipped_clips'));
+const ReportSkippedSentencesPage = React.lazy(() => import('./report/skipped_sentences'));
+
 const SENTRY_FE_DSN =
   'https://4a940c31e4e14d8fa6984e919a56b9fa@sentry.prod.mozaws.net/491';
 
@@ -358,6 +365,21 @@ class App extends React.Component {
         <Provider store={store}>
           <Router history={history}>
             <Switch>
+               {[
+                  { route: '/report/clips', Component: ReportClipsPage },
+                  { route: '/report/votes', Component: ReportVotesPage },
+                  { route: '/report/reported_clips', Component: ReportReportedClipsPage },
+                  { route: '/report/reported_sentences', Component: ReportReportedSentencesPage },
+                  { route: '/report/skipped_clips', Component: ReportSkippedClipsPage },
+                  { route: '/report/skipped_sentences', Component: ReportSkippedSentencesPage },
+               ].map(({ route, Component }: any) => (
+                  <Route
+                     key={route}
+                     exact
+                     path={route}
+                     render={props => <Component /> }
+                  />
+               ))}
               {Object.values(URLS).map(url => (
                 <Route
                   key={url}
