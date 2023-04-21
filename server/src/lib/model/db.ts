@@ -987,6 +987,7 @@ export default class DB {
     }
   }
 
+
   async getPoints(client_id: string, challenge: string) {
     const [[row]] = await this.mysql.query(
       `
@@ -1087,4 +1088,213 @@ export default class DB {
 
     return !!row;
   }
+
+  async generateReportClips() {
+     // All clips plus potential their vote.
+     const query = `
+     SELECT
+      clips.bucket,
+      clips.client_id,
+      clips.created_at,
+      clips.id,
+      clips.is_valid,
+      clips.locale_id,
+      locales.name AS locale_name,
+      clips.needs_votes,
+      clips.original_sentence_id,
+      clips.path,
+      clips.sentence,
+      clips.validated_at,
+      (SELECT
+      JSON_ARRAY(
+      JSON_OBJECT(
+         'client_id', votes.client_id,
+         'clip_id', votes.clip_id,
+         'created_at', votes.created_at,
+         'id', votes.id,
+         'is_valid', votes.is_valid
+      ))
+FROM votes
+WHERE clips.id = votes.clip_id
+) AS votes
+FROM clips
+LEFT JOIN locales
+  ON clips.locale_id = locales.id
+;
+     `;
+
+     const [row] = await this.mysql.query(query);
+
+     return row;
+  };
+
+  async generateReportVotes() {
+     // List clips that have votes.
+     const query = `
+SELECT
+      votes.client_id,
+      votes.clip_id,
+      votes.created_at,
+      votes.id,
+      votes.is_valid,
+      JSON_OBJECT(
+        'bucket', clips.bucket,
+        'client_id', clips.client_id,
+        'clip_id', clips.id,
+        'created_at', clips.created_at,
+        'is_valid', clips.is_valid,
+        'locale_id', clips.locale_id,
+        'locale_name', locales.name,
+        'needs_votes', clips.needs_votes,
+        'original_sentence_id', clips.original_sentence_id,
+        'path', clips.path,
+        'sentence', clips.sentence,
+        'validated_at', clips.validated_at
+      ) AS clip
+FROM votes
+LEFT JOIN clips
+  ON votes.clip_id = clips.id
+LEFT JOIN locales
+  ON clips.locale_id = locales.id
+;
+     `;
+
+     const [row] = await this.mysql.query(query);
+
+     return row;
+  };
+
+  async generateReportReportedSentences() {
+     const query = `
+SELECT
+      reported_sentences.client_id,
+      reported_sentences.created_at,
+      reported_sentences.id,
+      reported_sentences.reason,
+      JSON_OBJECT(
+        'bucket', sentences.bucket,
+        'clips_count', sentences.clips_count,
+        'created_at', sentences.created_at,
+        'has_valid_clip', sentences.has_valid_clip,
+        'id', sentences.id,
+        'is_used', sentences.is_used,
+        'locale_id', sentences.locale_id,
+        'locale_name', locales.name,
+        'source', sentences.source,
+        'text', sentences.text,
+        'version', sentences.version
+      ) AS sentence
+FROM reported_sentences
+LEFT JOIN sentences
+  ON reported_sentences.sentence_id = sentences.id
+LEFT JOIN locales
+  ON sentences.locale_id = locales.id
+;
+     `;
+
+     const [row] = await this.mysql.query(query);
+
+     return row;
+  };
+
+  async generateReportReportedClips() {
+     const query = `
+SELECT
+      reported_clips.client_id,
+      reported_clips.created_at,
+      reported_clips.id,
+      reported_clips.reason,
+      JSON_OBJECT(
+        'bucket', clips.bucket,
+        'client_id', clips.client_id,
+        'id', clips.id,
+        'created_at', clips.created_at,
+        'is_valid', clips.is_valid,
+        'locale_id', clips.locale_id,
+        'locale_name', locales.name,
+        'needs_votes', clips.needs_votes,
+        'original_sentence_id', clips.original_sentence_id,
+        'path', clips.path,
+        'sentence', clips.sentence,
+        'validated_at', clips.validated_at
+      ) AS clip
+FROM reported_clips
+LEFT JOIN clips
+  ON reported_clips.clip_id = clips.id
+LEFT JOIN locales
+  ON clips.locale_id = locales.id
+;
+     `;
+
+     const [row] = await this.mysql.query(query);
+
+     return row;
+  };
+
+  async generateReportSkippedSentences() {
+     const query = `
+SELECT
+      skipped_sentences.client_id,
+      skipped_sentences.created_at,
+      skipped_sentences.id,
+      skipped_sentences.sentence_id,
+      JSON_OBJECT(
+        'bucket', sentences.bucket,
+        'clips_count', sentences.clips_count,
+        'created_at', sentences.created_at,
+        'has_valid_clip', sentences.has_valid_clip,
+        'id', sentences.id,
+        'is_used', sentences.is_used,
+        'locale_id', sentences.locale_id,
+        'locale_name', locales.name,
+        'source', sentences.source,
+        'text', sentences.text,
+        'version', sentences.version
+      ) AS sentence
+FROM skipped_sentences
+LEFT JOIN sentences
+  ON skipped_sentences.sentence_id = sentences.id
+LEFT JOIN locales
+  ON sentences.locale_id = locales.id
+;
+     `;
+
+     const [row] = await this.mysql.query(query);
+
+     return row;
+  };
+
+  async generateReportSkippedClips() {
+     const query = `
+SELECT
+      skipped_clips.client_id,
+      skipped_clips.clip_id,
+      skipped_clips.created_at,
+      skipped_clips.id,
+      JSON_OBJECT(
+        'bucket', clips.bucket,
+        'client_id', clips.client_id,
+        'created_at', clips.created_at,
+        'id', clips.id,
+        'is_valid', clips.is_valid,
+        'locale_id', clips.locale_id,
+        'locale_name', locales.name,
+        'needs_votes', clips.needs_votes,
+        'original_sentence_id', clips.original_sentence_id,
+        'path', clips.path,
+        'sentence', clips.sentence,
+        'validated_at', clips.validated_at
+      ) AS clip
+FROM skipped_clips
+LEFT JOIN clips
+  ON skipped_clips.clip_id = clips.id
+LEFT JOIN locales
+  ON clips.locale_id = locales.id
+;
+     `;
+
+     const [row] = await this.mysql.query(query);
+
+     return row;
+  };
 }

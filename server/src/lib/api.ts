@@ -102,6 +102,14 @@ export default class API {
     router.post('/skipped_sentences/:id', this.createSkippedSentence);
     router.post('/skipped_clips/:id', this.createSkippedClip);
 
+    // Reports
+    router.get('/report/clips', this.generateReportClips);
+    router.get('/report/votes', this.generateReportVotes);
+    router.get('/report/reported_clips', this.generateReportReportedClips);
+    router.get('/report/reported_sentences', this.generateReportReportedSentences);
+    router.get('/report/skipped_clips', this.generateReportSkippedClips);
+    router.get('/report/skipped_sentences', this.generateReportSkippedSentences);
+
     router.use(
       '/:locale?/clips',
       (request: Request, response: Response, next: NextFunction) => {
@@ -541,5 +549,36 @@ export default class API {
     }
 
     return countNumberResult;
+  };
+
+  generateReportClips = async (request: Request, response: Response) => {
+     const clips = await this.model.generateReportClips();
+     response.json(clips);
+  };
+
+  generateReportVotes = async (request: Request, response: Response) => {
+     const clips = await this.model.generateReportVotes();
+     response.json(clips);
+  };
+
+  generateReportReportedClips = async (request: Request, response: Response) => {
+     const clips = await this.model.generateReportReportedClips();
+     response.json(clips);
+  };
+
+  generateReportReportedSentences = async (request: Request, response: Response) => {
+     const clips = await this.model.generateReportReportedSentences();
+     //response.send(clips);
+     response.json(clips);
+  };
+
+  generateReportSkippedClips = async (request: Request, response: Response) => {
+     const clips = await this.model.generateReportSkippedClips();
+     response.json(clips);
+  };
+
+  generateReportSkippedSentences = async (request: Request, response: Response) => {
+     const clips = await this.model.generateReportSkippedSentences();
+     response.json(clips);
   };
 }

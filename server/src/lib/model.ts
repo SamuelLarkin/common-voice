@@ -286,4 +286,28 @@ export default class Model {
     (locale?: string) => this.db.getContributionStats(locale),
     20 * MINUTE
   );
+
+  async generateReportClips() {
+     return this.db.generateReportClips();
+  };
+
+  async generateReportVotes() {
+     return this.db.generateReportVotes();
+  };
+
+  async generateReportReportedClips() {
+     return this.db.generateReportReportedClips();
+  };
+
+  async generateReportReportedSentences() {
+     return this.db.generateReportReportedSentences();
+  };
+
+  async generateReportSkippedClips() {
+     return this.db.generateReportSkippedClips();
+  };
+
+  async generateReportSkippedSentences() {
+     return this.db.generateReportSkippedSentences();
+  };
 }
