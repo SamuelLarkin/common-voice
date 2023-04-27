@@ -252,7 +252,7 @@ export default class Clip {
           console.log("Not converting mpeg/AAC");
        }
 
-      console.log("HEADERS: ", headers);
+      console.log("HEADERS: ", JSON.stringify(headers));
       const audioOutput = new Transcoder(audioInput)
         .audioCodec(config.TRANSCODE.AUDIO_CODEC)
         .format(config.TRANSCODE.FORMAT)
