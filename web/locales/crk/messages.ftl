@@ -17,6 +17,7 @@ not-available-abbreviation = N/A
 # Don't rename the following section, its contents are auto-inserted based on the name (see scripts/pontoon-languages-to-ftl.js)
 # [Languages]
 ## Languages
+aaa = SENĆOŦEN Origin Stories
 ab = Abkhaz
 ace = Acehnese
 ady = Adyghe
@@ -297,7 +298,7 @@ shortcut-vote-no = n
 shortcut-record-toggle = r
 shortcut-record-toggle-label = Record/Stop
 
-shortcut-rerecord-toggle = [1]
+shortcut-rerecord-toggle = [1-5]
 shortcut-rerecord-toggle-label = Re-record clip
 
 shortcut-discard-ongoing-recording = ESC
