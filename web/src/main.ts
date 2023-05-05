@@ -23,14 +23,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const App = require('./components/app').default;
   render(React.createElement(App), document.getElementById('root'));
-
-   /*
-   const clips_list = require('./components/report/clips').default;
-   render(React.createElement(clips_list), document.getElementById('root'));
-    */
-
-   /*
-   const reported_sentences_list = require('./components/report/reported_sentences').default;
-   render(React.createElement(reported_sentences_list), document.getElementById('root'));
-    */
 });
