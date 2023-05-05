@@ -1,3 +1,5 @@
+**Strive to keep a linear history between ilt & dev/ilt.**
+
 ## Pull Request Form
 
 <!-- Thanks for making a contribution to Common Voice, to help us review the request please fill out this form -->
