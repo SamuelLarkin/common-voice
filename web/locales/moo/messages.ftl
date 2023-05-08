@@ -18,6 +18,7 @@ not-available-abbreviation = N/A
 # [Languages]
 ## Languages
 aaa = SENĆOŦEN Origin Stories
+aab = Kanyen'kéha (Ohswekèn:'a) moo-Latest
 ab = Abkhaz
 ace = Acehnese
 ady = Adyghe
