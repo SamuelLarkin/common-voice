@@ -1,0 +1,3 @@
+[submodule "server/data.ilt"]
+	path = server/data.ilt
+	url = git@github.com:EveryVoiceTTS/common-voice-corpora.git
