@@ -8,7 +8,7 @@ interface Clip {
    bucket: string;
    client_id: string;
    created_at: string;
-   id: string;
+   id: number;
    is_valid: number;
    locale_id: number;
    locale_name: string;
