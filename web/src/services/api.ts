@@ -109,6 +109,10 @@ export default class API {
     return this.fetch(`${this.getClipPath()}?count=${count}`);
   }
 
+   getClipUrl(clip_id: number): Promise<Clip> {
+      return this.fetch(`${this.getClipPath()}/${clip_id}`);
+  }
+
   uploadClip(
     blob: Blob,
     sentenceId: string,
@@ -132,6 +136,7 @@ export default class API {
       body: blob,
     });
   }
+
   saveVote(id: string, isValid: boolean): Promise<Vote> {
     return this.fetch(`${this.getClipPath()}/${id}/votes`, {
       method: 'POST',

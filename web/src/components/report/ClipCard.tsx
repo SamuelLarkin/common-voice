@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import API from '../../services/api';
 
 
 
@@ -22,11 +23,25 @@ interface Clip {
 
 
 function ClipCard({clip}: {clip: Clip}) {
+   const [clipUrl, setClipUrl] = React.useState<string>();
+
+   React.useEffect(() => {
+      async function apiCall() {
+         const apiResponse = await fetch(`/api/v1/clips/url/${clip.id}`)
+            .then((response) => response.json());
+         console.log(apiResponse);
+         setClipUrl(apiResponse);
+      }
+      console.log(`ClipCard::apiCall(${clip.id})`);
+      apiCall();
+   }, []);
+
    return (
       <>
          <Box margin={1}>
             <Typography variant="h6" gutterBottom component="div">
                Clip
+               <audio src={clipUrl} />
             </Typography>
             <ul style={{backgroundColor: "#FF6F61"}}>
                <li>bucket: {clip.bucket}</li>

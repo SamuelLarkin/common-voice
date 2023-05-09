@@ -72,6 +72,7 @@ export default class Clip {
     router.get('/voices', this.serveVoicesStats);
     router.get('/votes/daily_count', this.serveDailyVotesCount);
     router.get('/:clip_id', this.serveClip);
+    router.get('/url/:clip_id', this.serveClip2);
     router.get('*', this.serveRandomClips);
 
     return router;
@@ -103,6 +104,15 @@ export default class Clip {
     const url = await this.bucket.getClipUrl(params.clip_id);
     if (url) {
       response.redirect(await this.bucket.getClipUrl(params.clip_id));
+    } else {
+      response.json({});
+    }
+  };
+
+  serveClip2 = async ({ params }: Request, response: Response) => {
+    const url = await this.bucket.getClipUrl(params.clip_id);
+    if (url) {
+       response.json(url);
     } else {
       response.json({});
     }

@@ -553,6 +553,16 @@ export default class API {
 
   generateReportClips = async (request: Request, response: Response) => {
      const clips = await this.model.generateReportClips();
+     /*
+     await Promise.all(
+        clips.map(
+           (clip: any) => {
+              const audioSrc = this.bucket.getClipUrl(clip.id);
+              clip.audioSrc = audioSrc;
+              return clip;
+           }
+        ));
+     */
      response.json(clips);
   };
 

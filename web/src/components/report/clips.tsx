@@ -83,7 +83,7 @@ function VotesCard({votes}: {votes: Vote[]}) {
 
 
 
-function Card({item}: {item: ClipWithVotes}) {
+function Card({item, props}: {item: ClipWithVotes, props: any}) {
    return (
       <>
          <ClipCard clip={item} />
@@ -94,7 +94,7 @@ function Card({item}: {item: ClipWithVotes}) {
 
 
 
-function Row({item}: { item: ClipWithVotes }) {
+function Row({item, props}: { item: ClipWithVotes, props: any }) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
@@ -116,7 +116,7 @@ function Row({item}: { item: ClipWithVotes }) {
          <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                <Collapse in={open} timeout="auto" unmountOnExit>
-                  <Card item={item} />
+                  <Card item={item} {...props} />
                </Collapse>
             </TableCell>
          </TableRow>
@@ -126,7 +126,7 @@ function Row({item}: { item: ClipWithVotes }) {
 
 
 
-export default function ClipsList() {
+export default function ClipsList(props: any) {
    const [items, setItems] = React.useState<ClipWithVotes[]>();
 
    React.useEffect(() => {
@@ -138,6 +138,8 @@ export default function ClipsList() {
       }
       apiCall();
    }, []);
+
+   console.log("Debug AA", props);
 
    return (
       <>
@@ -157,7 +159,7 @@ export default function ClipsList() {
                <TableBody>
                   {
                      items
-                     && items.map((item: ClipWithVotes) => <Row key={item.id} item={item} />)
+                     && items.map((item: ClipWithVotes) => <Row key={item.id} item={item} {...props} />)
                   }
                </TableBody>
             </Table>

@@ -377,7 +377,7 @@ class App extends React.Component {
                      key={route}
                      exact
                      path={route}
-                     render={props => <Component /> }
+                     render={props => <Component {...store.getState()} /> }
                   />
                ))}
               {Object.values(URLS).map(url => (
