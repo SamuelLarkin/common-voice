@@ -155,7 +155,15 @@ export async function importSentences(pool: any) {
   );
   const version = ((oldVersion || 0) + 1) % 256; //== max size of version column
   const locales = ((await new Promise(resolve =>
-    fs.readdir(SENTENCES_FOLDER, (_, names) => resolve(names))
+     fs.readdir(
+        SENTENCES_FOLDER,
+        {withFileTypes: true},
+        (_, names) =>
+           resolve(
+              names
+              .filter(dirent => dirent.isDirectory())
+              .map(dirent => dirent.name))
+     )
   )) as string[]).filter(name => name !== 'LICENSE');
 
   print('locales', locales.join(','));
