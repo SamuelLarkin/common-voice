@@ -1,6 +1,9 @@
 name: "Staging: Build and push docker container"
 
 on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [common-voice-build-image-stage]
   push:
     branches:
       - dev/ilt
